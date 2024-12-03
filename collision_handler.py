@@ -23,7 +23,7 @@ class CollisionHandler:
                 is_colliding_with_paddle(self.ball, self.paddle1)):
             self.ball.speed_x = -self.ball.speed_x
             self.ball.speed_y -= (self.paddle1.rect.centery -
-                                  self.ball.rect.centery) // 10
+                                  self.ball.rect.centery) / 25
             self.ball.max_speed += BALL_D_SPEED
             self.ball.reset_speed()
 
@@ -31,7 +31,7 @@ class CollisionHandler:
                 is_colliding_with_paddle(self.ball, self.paddle2)):
             self.ball.speed_x = -self.ball.speed_x
             self.ball.speed_y -= (self.paddle2.rect.centery -
-                                  self.ball.rect.centery) // 10
+                                  self.ball.rect.centery) / 25
             self.ball.max_speed += BALL_D_SPEED
             self.ball.reset_speed()
 
@@ -42,7 +42,7 @@ class CollisionHandler:
     def _check_ball_void_collisions(self) -> None:
         if self.ball.rect.left < 0:
             self.paddle2.score += 1
-            self.ball.reset()
+            self.ball.reset(False)
         elif self.ball.rect.right > WIDTH:
             self.paddle1.score += 1
-            self.ball.reset()
+            self.ball.reset(True)

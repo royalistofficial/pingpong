@@ -18,10 +18,10 @@ class Ball:
         self.rect.x += self.speed_x
         self.rect.y += self.speed_y
 
-    def reset(self) -> None:
+    def reset(self, dir=True) -> None:
         self.rect.x = WIDTH // 2
         self.rect.y = HEIGHT // 2
         self.max_speed = BALL_SPEED
-        self.speed_x = random.randint(-100, 100)
-        self.speed_y = random.randint(-10, 10)
+        self.speed_x = 1 if dir else -1
+        self.speed_y = 0
         self.reset_speed()
