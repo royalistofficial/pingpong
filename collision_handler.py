@@ -1,7 +1,7 @@
 import pygame
 from ball import Ball
 from paddle import Paddle
-from config import BALL_D_SPEED, WIDTH, HEIGHT
+from config import BALL_D_SPEED, WIDTH, HEIGHT, BALL_SIZE
 
 
 class CollisionHandler:
@@ -17,7 +17,7 @@ class CollisionHandler:
 
     def _check_ball_paddle_collisions(self) -> None:
         def is_colliding_with_paddle(ball, paddle):
-            return paddle.rect.top < ball.rect.centery < paddle.rect.bottom
+            return paddle.rect.top <= ball.rect.centery + BALL_SIZE and ball.rect.centery - BALL_SIZE <= paddle.rect.bottom
 
         if (self.ball.rect.left <= self.paddle1.rect.right and
                 is_colliding_with_paddle(self.ball, self.paddle1)):
