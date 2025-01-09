@@ -25,3 +25,6 @@ class Ball:
         self.speed_x = 1 if dir else -1
         self.speed_y = 0
         self.reset_speed()
+
+    def get_state(self) -> tuple:
+        return (self.rect.x, self.rect.y, self.speed_x, self.speed_y)

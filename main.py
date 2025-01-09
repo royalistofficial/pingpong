@@ -1,8 +1,9 @@
 import pygame
 import sys
 from config import WIDTH, HEIGHT
-from game import Game, TwoPlayerGame, OnePlayerGame
-from menu import Menu, DifficultyMenu
+from game import TwoPlayerGame, EasyOnePlayerGame, MediumBotPaddle
+from menu import Menu
+
 
 def main():
     pygame.init()
@@ -10,10 +11,7 @@ def main():
     pygame.display.set_caption("Пинг-понг")
 
     menu = Menu()
-    difficulty_menu = DifficultyMenu()
-    in_menu = True
-    in_difficulty_menu = False
-    game = TwoPlayerGame()
+    game = None
 
     while True:
         for event in pygame.event.get():
@@ -21,39 +19,31 @@ def main():
                 pygame.quit()
                 sys.exit()
 
-            if in_menu:
-                action = menu.handle_input(event)
-                if action == "start":
-                    in_menu = False
-                elif action == "difficulty":
-                    in_menu = False
-                    in_difficulty_menu = True
-            elif in_difficulty_menu:
-                action = difficulty_menu.handle_input(event)
-                if action == "one_player":
-                    game = OnePlayerGame()
-                    in_difficulty_menu = False
-                elif action == "two_player":
-                    game = TwoPlayerGame()
-                    in_difficulty_menu = False
-                elif action == "menu":
-                    in_difficulty_menu = False
-                    in_menu = True
-        
+            action = menu.handle_input(event)
+            if action == "Easy":
+                game = EasyOnePlayerGame()
+                menu.current_menu = "game"
+            elif action == "Medium":
+                game = MediumBotPaddle()
+                menu.current_menu = "game"
+            elif action == "two_player":
+                game = TwoPlayerGame()
+                menu.current_menu = "game"
 
-        if in_menu:
+        if menu.current_menu == "main" or menu.current_menu == "difficulty":
             menu.draw(window)
-        elif in_difficulty_menu:
-            difficulty_menu.draw(window)
-        else:
-            action = game.handle_input()
-            if action == "menu":
-                in_menu = True
-            game.update()
-            game.draw(window)
+        elif menu.current_menu == "game":
+            if game:
+                action = game.handle_input()
+                if action == "menu":
+                    menu.current_menu = "main"
+                    menu.selected_option = 0
+                game.update()
+                game.draw(window)
 
         pygame.time.Clock().tick(60)
         pygame.display.flip()
+
 
 if __name__ == "__main__":
     main()

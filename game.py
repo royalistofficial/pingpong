@@ -1,9 +1,10 @@
 import pygame
-from paddle import Paddle, PlayerPaddle, BotPaddle
+from paddle import PlayerPaddle, EasyBotPaddle, MediumBotPaddle
 from abc import ABC, abstractmethod
 from ball import Ball
 from config import WIDTH, HEIGHT, WHITE, BLACK, PADDLE_HEIGHT, PADDLE_WIDTH
 from collision_handler import CollisionHandler
+
 
 class Game(ABC):
     def __init__(self) -> None:
@@ -12,12 +13,22 @@ class Game(ABC):
         self.ball = None
         self.collision_handler = None
         self.paused = False
+        self.exit = False
         self.pause_key_pressed = False
         self.font = pygame.font.Font(None, 36)
 
     @abstractmethod
     def handle_input(self) -> str:
-        pass
+        keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_p] and not self.pause_key_pressed:
+            self.paused = not self.paused
+            self.pause_key_pressed = True
+        elif not keys[pygame.K_p]:
+            self.pause_key_pressed = False
+
+        if keys[pygame.K_ESCAPE]:
+            self.exit = True
 
     def update(self) -> None:
         if not self.paused:
@@ -31,33 +42,44 @@ class Game(ABC):
             pygame.draw.rect(window, WHITE, self.paddle2.rect)
         pygame.draw.ellipse(window, WHITE, self.ball.rect)
 
-        score_text = self.font.render(f"{self.paddle1.score} - {self.paddle2.score if self.paddle2 else 0}", True, WHITE)
+        score_text = self.font.render(
+            f"{self.paddle1.score} - {self.paddle2.score if self.paddle2 else 0}", True, WHITE)
         window.blit(score_text, (WIDTH // 2 - score_text.get_width() // 2, 20))
 
         if self.paused:
             pause_text = self.font.render("PAUSED", True, WHITE)
-            window.blit(pause_text, (WIDTH // 2 - pause_text.get_width() // 2, HEIGHT // 2 - pause_text.get_height() // 2))
+            window.blit(
+                pause_text,
+                (WIDTH //
+                 2 -
+                 pause_text.get_width() //
+                 2,
+                 HEIGHT //
+                 2 -
+                 pause_text.get_height() //
+                 2))
 
         pygame.display.flip()
+
 
 class TwoPlayerGame(Game):
     def __init__(self) -> None:
         super().__init__()
-        self.paddle1 = PlayerPaddle(0, (HEIGHT - PADDLE_HEIGHT) // 2, pygame.K_w, pygame.K_s)
-        self.paddle2 = PlayerPaddle(WIDTH - PADDLE_WIDTH, (HEIGHT - PADDLE_HEIGHT) // 2, pygame.K_UP, pygame.K_DOWN)
+        self.paddle1 = PlayerPaddle(
+            0, (HEIGHT - PADDLE_HEIGHT) // 2, pygame.K_w, pygame.K_s)
+        self.paddle2 = PlayerPaddle(
+            WIDTH - PADDLE_WIDTH,
+            (HEIGHT - PADDLE_HEIGHT) // 2,
+            pygame.K_UP,
+            pygame.K_DOWN)
         self.ball = Ball()
-        self.collision_handler = CollisionHandler(self.ball, self.paddle1, self.paddle2)
+        self.collision_handler = CollisionHandler(
+            self.ball, self.paddle1, self.paddle2)
 
     def handle_input(self) -> str:
-        keys = pygame.key.get_pressed()
+        super().handle_input()
 
-        if keys[pygame.K_p] and not self.pause_key_pressed:
-            self.paused = not self.paused
-            self.pause_key_pressed = True
-        elif not keys[pygame.K_p]:
-            self.pause_key_pressed = False
-
-        if keys[pygame.K_ESCAPE]: 
+        if self.exit:
             return "menu"
 
         if not self.paused:
@@ -66,29 +88,52 @@ class TwoPlayerGame(Game):
 
         return "game"
 
-class OnePlayerGame(Game):
+
+class EasyOnePlayerGame(Game):
     def __init__(self) -> None:
         super().__init__()
-        self.paddle1 = PlayerPaddle(0, (HEIGHT - PADDLE_HEIGHT) // 2, pygame.K_w, pygame.K_s)
-        self.paddle2 = BotPaddle(WIDTH - PADDLE_WIDTH, (HEIGHT - PADDLE_HEIGHT) // 2)
+        self.paddle1 = PlayerPaddle(
+            0, (HEIGHT - PADDLE_HEIGHT) // 2, pygame.K_w, pygame.K_s)
+        self.paddle2 = EasyBotPaddle(
+            WIDTH - PADDLE_WIDTH,
+            (HEIGHT - PADDLE_HEIGHT) // 2)
         self.ball = Ball()
-        self.collision_handler = CollisionHandler(self.ball, self.paddle1, self.paddle2)
-
+        self.collision_handler = CollisionHandler(
+            self.ball, self.paddle1, self.paddle2)
 
     def handle_input(self) -> str:
-        keys = pygame.key.get_pressed()
+        super().handle_input()
 
-        if keys[pygame.K_p] and not self.pause_key_pressed:
-            self.paused = not self.paused
-            self.pause_key_pressed = True
-        elif not keys[pygame.K_p]:
-            self.pause_key_pressed = False
-
-        if keys[pygame.K_ESCAPE]: 
+        if self.exit:
             return "menu"
 
         if not self.paused:
             self.paddle1.move()
-            self.paddle2.move(self.ball.rect.y)
+            self.paddle2.move(self.ball)
+
+        return "game"
+
+
+class MediumOnePlayerGame(Game):
+    def __init__(self) -> None:
+        super().__init__()
+        self.paddle1 = PlayerPaddle(
+            0, (HEIGHT - PADDLE_HEIGHT) // 2, pygame.K_w, pygame.K_s)
+        self.paddle2 = MediumBotPaddle(
+            WIDTH - PADDLE_WIDTH,
+            (HEIGHT - PADDLE_HEIGHT) // 2)
+        self.ball = Ball()
+        self.collision_handler = CollisionHandler(
+            self.ball, self.paddle1, self.paddle2)
+
+    def handle_input(self) -> str:
+        super().handle_input()
+
+        if self.exit:
+            return "menu"
+
+        if not self.paused:
+            self.paddle1.move()
+            self.paddle2.move(self.ball)
 
         return "game"
