@@ -1,7 +1,7 @@
 import pygame
 import sys
 from config import WIDTH, HEIGHT
-from game import TwoPlayerGame, EasyOnePlayerGame, MediumBotPaddle
+from game import TwoPlayerGame, EasyOnePlayerGame, MediumOnePlayerGame
 from menu import Menu
 
 
@@ -24,7 +24,7 @@ def main():
                 game = EasyOnePlayerGame()
                 menu.current_menu = "game"
             elif action == "Medium":
-                game = MediumBotPaddle()
+                game = MediumOnePlayerGame()
                 menu.current_menu = "game"
             elif action == "two_player":
                 game = TwoPlayerGame()

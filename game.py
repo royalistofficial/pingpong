@@ -118,7 +118,8 @@ class MediumOnePlayerGame(Game):
     def __init__(self) -> None:
         super().__init__()
         self.paddle1 = PlayerPaddle(
-            0, (HEIGHT - PADDLE_HEIGHT) // 2, pygame.K_w, pygame.K_s)
+            0, (HEIGHT - PADDLE_HEIGHT) // 2, 
+            pygame.K_w, pygame.K_s)
         self.paddle2 = MediumBotPaddle(
             WIDTH - PADDLE_WIDTH,
             (HEIGHT - PADDLE_HEIGHT) // 2)
