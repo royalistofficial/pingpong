@@ -68,7 +68,7 @@ class Menu:
             elif self.selected_option == 1:
                 return "Medium"
             elif self.selected_option == 2:
-                return "Medium"
+                return "Hard"
             elif self.selected_option == 3:
                 return "two_player"
             elif self.selected_option == 4:

@@ -1,5 +1,5 @@
 import pygame
-from paddle import PlayerPaddle, EasyBotPaddle, MediumBotPaddle
+from paddle import PlayerPaddle, EasyBotPaddle, MediumBotPaddle, HardBotPaddle
 from abc import ABC, abstractmethod
 from ball import Ball
 from config import WIDTH, HEIGHT, WHITE, BLACK, PADDLE_HEIGHT, PADDLE_WIDTH
@@ -121,6 +121,32 @@ class MediumOnePlayerGame(Game):
             0, (HEIGHT - PADDLE_HEIGHT) // 2, 
             pygame.K_w, pygame.K_s)
         self.paddle2 = MediumBotPaddle(
+            WIDTH - PADDLE_WIDTH,
+            (HEIGHT - PADDLE_HEIGHT) // 2)
+        self.ball = Ball()
+        self.collision_handler = CollisionHandler(
+            self.ball, self.paddle1, self.paddle2)
+
+    def handle_input(self) -> str:
+        super().handle_input()
+
+        if self.exit:
+            return "menu"
+
+        if not self.paused:
+            self.paddle1.move()
+            self.paddle2.move(self.ball)
+
+        return "game"
+
+
+class HardOnePlayerGame(Game):
+    def __init__(self) -> None:
+        super().__init__()
+        self.paddle1 = PlayerPaddle(
+            0, (HEIGHT - PADDLE_HEIGHT) // 2, 
+            pygame.K_w, pygame.K_s)
+        self.paddle2 = HardBotPaddle(
             WIDTH - PADDLE_WIDTH,
             (HEIGHT - PADDLE_HEIGHT) // 2)
         self.ball = Ball()
