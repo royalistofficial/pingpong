@@ -31,13 +31,9 @@ class Menu:
 
             window.blit(
                 text,
-                (WIDTH //
-                 2 -
-                 text.get_width() //
-                 2,
-                 10 +
-                 index *
-                 100))
+                (WIDTH // 2 -
+                 text.get_width() // 2,
+                 10 + index * 100))
 
     def handle_input(self, event):
         if event.type == pygame.KEYDOWN:
