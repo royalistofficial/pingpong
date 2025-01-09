@@ -1,8 +1,8 @@
 import pygame
 import sys
-from config import WIDTH, HEIGHT
-from game import TwoPlayerGame, EasyOnePlayerGame, MediumOnePlayerGame, HardOnePlayerGame
-from menu import Menu
+from config.config import WIDTH, HEIGHT
+from game.game import TwoPlayerGame, EasyOnePlayerGame, MediumOnePlayerGame, HardOnePlayerGame
+from menu.menu import Menu
 
 
 def main():

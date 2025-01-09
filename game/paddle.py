@@ -1,7 +1,7 @@
 import pygame
-from ball import Ball
+from game.ball import Ball
 from abc import ABC, abstractmethod
-from config import PADDLE_WIDTH, PADDLE_HEIGHT, HEIGHT, WIDTH, PADDLE_SPEED
+from config.config import PADDLE_WIDTH, PADDLE_HEIGHT, HEIGHT, WIDTH, PADDLE_SPEED
 
 
 class Paddle(ABC):

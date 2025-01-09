@@ -1,6 +1,6 @@
 import pygame
 import random
-from config import BALL_SIZE, BALL_SPEED, WIDTH, HEIGHT, PADDLE_WIDTH
+from config.config import BALL_SIZE, BALL_SPEED, WIDTH, HEIGHT, PADDLE_WIDTH
 
 
 class Ball:

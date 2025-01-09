@@ -1,7 +1,7 @@
 import pygame
-from ball import Ball
-from paddle import Paddle
-from config import BALL_D_SPEED, WIDTH, HEIGHT, BALL_SIZE
+from game.ball import Ball
+from game.paddle import Paddle
+from config.config import BALL_D_SPEED, WIDTH, HEIGHT, BALL_SIZE
 
 
 class CollisionHandler:

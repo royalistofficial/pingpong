@@ -1,6 +1,6 @@
 import pygame
 import sys
-from config import WIDTH, HEIGHT
+from config.config import WIDTH, HEIGHT
 
 
 class Menu:

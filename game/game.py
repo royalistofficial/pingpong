@@ -1,9 +1,9 @@
 import pygame
-from paddle import PlayerPaddle, EasyBotPaddle, MediumBotPaddle, HardBotPaddle
+from game.paddle import PlayerPaddle, EasyBotPaddle, MediumBotPaddle, HardBotPaddle
 from abc import ABC, abstractmethod
-from ball import Ball
-from config import WIDTH, HEIGHT, WHITE, BLACK, PADDLE_HEIGHT, PADDLE_WIDTH
-from collision_handler import CollisionHandler
+from game.ball import Ball
+from config.config import WIDTH, HEIGHT, WHITE, BLACK, PADDLE_HEIGHT, PADDLE_WIDTH
+from collision.collision_handler import CollisionHandler
 
 
 class Game(ABC):
