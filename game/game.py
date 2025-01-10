@@ -37,6 +37,10 @@ class Game(ABC):
 
     def draw(self, window: pygame.Surface) -> None:
         window.fill(BLACK)
+        for y in range(HEIGHT):
+            color = (0, 0, 0 + int(255 * (y / HEIGHT))) 
+            pygame.draw.line(window, color, (0, y), (WIDTH, y))
+            
         pygame.draw.rect(window, WHITE, self.paddle1.rect)
         if self.paddle2:
             pygame.draw.rect(window, WHITE, self.paddle2.rect)
@@ -50,14 +54,10 @@ class Game(ABC):
             pause_text = self.font.render("PAUSED", True, WHITE)
             window.blit(
                 pause_text,
-                (WIDTH //
-                 2 -
-                 pause_text.get_width() //
-                 2,
-                 HEIGHT //
-                 2 -
-                 pause_text.get_height() //
-                 2))
+                (WIDTH // 2 -
+                 pause_text.get_width() // 2,
+                 HEIGHT // 2 -
+                 pause_text.get_height() // 2))
 
         pygame.display.flip()
 

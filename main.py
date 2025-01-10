@@ -1,9 +1,30 @@
 import pygame
 import sys
 from config.config import WIDTH, HEIGHT
-from game.game import TwoPlayerGame, EasyOnePlayerGame, MediumOnePlayerGame, HardOnePlayerGame
+from game.game import Game, TwoPlayerGame, EasyOnePlayerGame, MediumOnePlayerGame, HardOnePlayerGame
 from menu.menu import Menu
 
+def handle_events(menu):
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+        action = menu.handle_input(event)
+        if isinstance(action, Game): 
+            menu.current_menu = "game"
+            return action
+    return None
+
+def update_menu(menu, game, window):
+    if menu.current_menu in ["main", "difficulty"]:
+        menu.draw(window)
+    elif menu.current_menu == "game" and game:
+        action = game.handle_input()
+        if action == "menu":
+            menu.current_menu = "main"
+            menu.selected_option = 0
+        game.update()
+        game.draw(window)
 
 def main():
     pygame.init()
@@ -14,39 +35,11 @@ def main():
     game = None
 
     while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-
-            action = menu.handle_input(event)
-            if action == "Easy":
-                game = EasyOnePlayerGame()
-                menu.current_menu = "game"
-            elif action == "Medium":
-                game = MediumOnePlayerGame()
-                menu.current_menu = "game"
-            elif action == "Hard":
-                game = HardOnePlayerGame()
-                menu.current_menu = "game"
-            elif action == "two_player":
-                game = TwoPlayerGame()
-                menu.current_menu = "game"
-
-        if menu.current_menu == "main" or menu.current_menu == "difficulty":
-            menu.draw(window)
-        elif menu.current_menu == "game":
-            if game:
-                action = game.handle_input()
-                if action == "menu":
-                    menu.current_menu = "main"
-                    menu.selected_option = 0
-                game.update()
-                game.draw(window)
+        game = handle_events(menu) or game
+        update_menu(menu, game, window)
 
         pygame.time.Clock().tick(60)
         pygame.display.flip()
-
 
 if __name__ == "__main__":
     main()
