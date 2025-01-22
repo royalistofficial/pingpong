@@ -9,10 +9,11 @@ def handle_events(menu):
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-        action = menu.handle_input(event)
-        if isinstance(action, Game): 
-            menu.current_menu = "game"
-            return action
+        if menu.current_menu != "game":
+            action = menu.handle_input(event)
+            if isinstance(action, Game): 
+                menu.current_menu = "game"
+                return action
     return None
 
 def update_menu(menu, game, window):

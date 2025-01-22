@@ -68,7 +68,7 @@ class TwoPlayerGame(Game):
         self.paddle1 = PlayerPaddle(
             0, (HEIGHT - PADDLE_HEIGHT) // 2, pygame.K_w, pygame.K_s)
         self.paddle2 = PlayerPaddle(
-            WIDTH - PADDLE_WIDTH
+            WIDTH - PADDLE_WIDTH,
             (HEIGHT - PADDLE_HEIGHT) // 2,
             pygame.K_UP,
             pygame.K_DOWN)
