@@ -16,15 +16,15 @@ def handle_events(menu):
     return None
 
 def update_menu(menu, game, window):
-    if menu.current_menu in ["main", "difficulty"]:
-        menu.draw(window)
-    elif menu.current_menu == "game" and game:
+    if menu.current_menu == "game" and game:
         action = game.handle_input()
         if action == "menu":
             menu.current_menu = "main"
             menu.selected_option = 0
         game.update()
         game.draw(window)
+    else:
+        menu.draw(window)
 
 def main():
     pygame.init()

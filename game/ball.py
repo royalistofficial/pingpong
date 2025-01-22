@@ -6,7 +6,7 @@ from config.config import BALL_SIZE, BALL_SPEED, WIDTH, HEIGHT, PADDLE_WIDTH
 class Ball:
     def __init__(self) -> None:
         self.rect = pygame.Rect(WIDTH // 2, HEIGHT // 2, BALL_SIZE, BALL_SIZE)
-        self.reset()
+        self.reset(random.random() < 0.5)
 
     def reset_speed(self) -> None:
         self.max_speed = min(self.max_speed, PADDLE_WIDTH)

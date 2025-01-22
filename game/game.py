@@ -38,16 +38,16 @@ class Game(ABC):
     def draw(self, window: pygame.Surface) -> None:
         window.fill(BLACK)
         for y in range(HEIGHT):
-            color = (0, 0, 0 + int(255 * (y / HEIGHT))) 
+            color = (0, 0, 0 + int(255 * (y / HEIGHT)))
             pygame.draw.line(window, color, (0, y), (WIDTH, y))
-            
+
         pygame.draw.rect(window, WHITE, self.paddle1.rect)
         if self.paddle2:
             pygame.draw.rect(window, WHITE, self.paddle2.rect)
         pygame.draw.ellipse(window, WHITE, self.ball.rect)
 
         score_text = self.font.render(
-            f"{self.paddle1.score} - {self.paddle2.score if self.paddle2 else 0}", True, WHITE)
+            f"{self.paddle1.score} - {self.paddle2.score}", True, WHITE)
         window.blit(score_text, (WIDTH // 2 - score_text.get_width() // 2, 20))
 
         if self.paused:
@@ -68,7 +68,7 @@ class TwoPlayerGame(Game):
         self.paddle1 = PlayerPaddle(
             0, (HEIGHT - PADDLE_HEIGHT) // 2, pygame.K_w, pygame.K_s)
         self.paddle2 = PlayerPaddle(
-            WIDTH - PADDLE_WIDTH,
+            WIDTH - PADDLE_WIDTH
             (HEIGHT - PADDLE_HEIGHT) // 2,
             pygame.K_UP,
             pygame.K_DOWN)
@@ -118,7 +118,7 @@ class MediumOnePlayerGame(Game):
     def __init__(self) -> None:
         super().__init__()
         self.paddle1 = PlayerPaddle(
-            0, (HEIGHT - PADDLE_HEIGHT) // 2, 
+            0, (HEIGHT - PADDLE_HEIGHT) // 2,
             pygame.K_w, pygame.K_s)
         self.paddle2 = MediumBotPaddle(
             WIDTH - PADDLE_WIDTH,
@@ -144,7 +144,7 @@ class HardOnePlayerGame(Game):
     def __init__(self) -> None:
         super().__init__()
         self.paddle1 = PlayerPaddle(
-            0, (HEIGHT - PADDLE_HEIGHT) // 2, 
+            0, (HEIGHT - PADDLE_HEIGHT) // 2,
             pygame.K_w, pygame.K_s)
         self.paddle2 = HardBotPaddle(
             WIDTH - PADDLE_WIDTH,
