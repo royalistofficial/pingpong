@@ -25,7 +25,7 @@ class Menu:
         self.menu_actions = {
             "main": {
                 0: self.start_game,
-                2: self.exit_game
+                1: self.exit_game
             },
             "difficulty": {
                 0: lambda: EasyOnePlayerGame(),
